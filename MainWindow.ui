@@ -150,7 +150,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBoxSectors"/>
+        <widget class="QSpinBox" name="spinBoxSectors">
+         <property name="value">
+          <number>21</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -197,14 +201,18 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBoxTracks"/>
+        <widget class="QSpinBox" name="spinBoxTracks">
+         <property name="value">
+          <number>5</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
     </layout>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
+  <widget class="Menu" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -217,10 +225,10 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="action_Open"/>
-    <addaction name="action_Save"/>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
     <addaction name="separator"/>
-    <addaction name="action_Quit"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
@@ -232,19 +240,28 @@
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="action_Open">
+  <action name="actionOpen">
    <property name="text">
     <string>&amp;Open</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
-  <action name="action_Save">
+  <action name="actionSave">
    <property name="text">
     <string>&amp;Save</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
   </action>
-  <action name="action_Quit">
+  <action name="actionQuit">
    <property name="text">
     <string>&amp;Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -266,7 +283,29 @@
    <header>ParachuteWidget.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>Menu</class>
+   <extends>QMenuBar</extends>
+   <header>Menu.h</header>
+  </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionQuit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

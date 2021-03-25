@@ -20,6 +20,9 @@ private:
     Ui::MainWindow * ui;
     MessageModel * _model;
 
+    void connectMenu();
+    void connectEdit();
+
 private slots:
     void onSliderSectorsChanged(int value);
     void onSpinBoxSectorsChanged(int value);

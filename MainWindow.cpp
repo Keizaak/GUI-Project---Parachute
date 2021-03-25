@@ -16,7 +16,14 @@ MainWindow::MainWindow(QWidget *parent)
     _model = new MessageModel(this);
     ui->widgetBinaryArray->setModel(_model);
     ui->widgetParachute->setModel(_model);
+}
 
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::connectEdit() {
     connect(ui->lineEditMessage, SIGNAL(textChanged(const QString &)), _model, SLOT(setMessage(const QString &)));
     connect(_model, SIGNAL(notify()), ui->widgetBinaryArray, SLOT(update()));
 
@@ -26,10 +33,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->spinBoxTracks, SIGNAL(valueChanged(int)), this, SLOT(onSpinBoxTracksChanged(int)));
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
 
 void MainWindow::onSliderSectorsChanged(int value) {
     ui->spinBoxSectors->setValue(value);

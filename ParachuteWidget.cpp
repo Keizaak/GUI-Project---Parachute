@@ -22,7 +22,7 @@ void ParachuteWidget::drawParachute(QPainter * painter) {
     float radius = 0;
 
     for (int i = 0; i < _model->getNbTracks(); i++) {
-        for (int j = 0; j < _model->getSectors(); j++) {
+        for (int j = 0; j < _model->getNbSectors(); j++) {
 
         }
     }
