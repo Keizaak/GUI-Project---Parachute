@@ -16,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
     _model = new MessageModel(this);
     ui->widgetBinaryArray->setModel(_model);
     ui->widgetParachute->setModel(_model);
+
+    connectEdit();
 }
 
 MainWindow::~MainWindow()
@@ -25,13 +27,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::connectEdit() {
     connect(ui->lineEditMessage, SIGNAL(textChanged(const QString &)), _model, SLOT(setMessage(const QString &)));
-    connect(_model, SIGNAL(notify()), ui->widgetBinaryArray, SLOT(update()));
-    connect(_model, SIGNAL(notify()), ui->widgetParachute, SLOT(update()));
-
     connect(ui->sliderSectors, SIGNAL(valueChanged(int)), this, SLOT(onSliderSectorsChanged(int)));
     connect(ui->spinBoxSectors, SIGNAL(valueChanged(int)), this, SLOT(onSpinBoxSectorsChanged(int)));
     connect(ui->sliderTracks, SIGNAL(valueChanged(int)), this, SLOT(onSliderTracksChanged(int)));
     connect(ui->spinBoxTracks, SIGNAL(valueChanged(int)), this, SLOT(onSpinBoxTracksChanged(int)));
+
+    connect(_model, SIGNAL(notify()), ui->widgetBinaryArray, SLOT(update()));
+    connect(_model, SIGNAL(notify()), ui->widgetParachute, SLOT(update()));
 }
 
 
