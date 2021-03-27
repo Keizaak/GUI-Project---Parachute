@@ -26,6 +26,7 @@ MainWindow::~MainWindow()
 void MainWindow::connectEdit() {
     connect(ui->lineEditMessage, SIGNAL(textChanged(const QString &)), _model, SLOT(setMessage(const QString &)));
     connect(_model, SIGNAL(notify()), ui->widgetBinaryArray, SLOT(update()));
+    connect(_model, SIGNAL(notify()), ui->widgetParachute, SLOT(update()));
 
     connect(ui->sliderSectors, SIGNAL(valueChanged(int)), this, SLOT(onSliderSectorsChanged(int)));
     connect(ui->spinBoxSectors, SIGNAL(valueChanged(int)), this, SLOT(onSpinBoxSectorsChanged(int)));

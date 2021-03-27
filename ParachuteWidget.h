@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QPainter>
+#include <math.h>
+#include <iostream>
 #include "MessageModel.h"
 
 class ParachuteWidget : public QWidget
@@ -18,6 +20,8 @@ private:
 
     void paintEvent(QPaintEvent * event) override;
     void drawParachute(QPainter * painter);
+    float createCoordinatesX(float radius, float angle, float cx);
+    float createCoordinatesY(float radius, float angle, float cy);
 };
 
 #endif // PARACHUTEWIDGET_H
