@@ -1,5 +1,7 @@
+#include <QDataStream>
+#include <QFile>
 #include "MessageModel.h"
-#include <fstream>
+#include <iostream>
 
 MessageModel::MessageModel(QObject * parent) : QObject(parent)
 {
@@ -84,24 +86,24 @@ void MessageModel::messageToBinary() {
 }
 
 bool MessageModel::save() {
-    std::ofstream fileHandler;
+    QFile file("parameters.dat");
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);
 
-    fileHandler.open("parameters.txt");
-    if (!fileHandler) {
-        return false;
-    }
-
-    fileHandler << "#Number of sectors" << std::endl;
-    fileHandler << _nbSectors << std::endl;
-    fileHandler << "#Number of tracks" << std::endl;
-    fileHandler << _nbTracks << std::endl;
-    fileHandler << "#Message" << std::endl;
-    fileHandler << _message.toStdString() << std::endl;
-    fileHandler.close();
+    out << (qint32)_nbSectors;
+    out << (qint32)_nbTracks;
+    out << _message;
 
     return true;
 }
 
 bool MessageModel::load() {
-    return false;
+    QFile file("parameters.dat");
+    file.open(QIODevice::ReadOnly);
+    QDataStream in(&file);
+
+    in >> _nbSectors >> _nbTracks >> _message;
+    sendNotification();
+
+    return true;
 }

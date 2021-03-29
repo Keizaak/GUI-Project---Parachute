@@ -91,5 +91,15 @@ void MainWindow::onSave() {
 }
 
 void MainWindow::onLoad() {
+    bool success = _model->load();
 
+    if (success) {
+        QMessageBox::information(this,
+                                 "Load",
+                                 "Parachute settings have been loaded successfully");
+    } else {
+        QMessageBox::critical(this,
+                              "Load",
+                              "Parachute settings could not be loaded, please ensure that the save file parameters.txt exists or that you have already saved");
+    }
 }
