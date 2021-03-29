@@ -12,6 +12,8 @@ SOURCES += \
     MessageModel.cpp \
     BinaryArrayWidget.cpp \
     ParachuteWidget.cpp \
+    ParametersLoad.cpp \
+    ParametersSave.cpp \
     main.cpp \
     MainWindow.cpp
 
@@ -19,7 +21,9 @@ HEADERS += \
     MessageModel.h \
     BinaryArrayWidget.h \
     ParachuteWidget.h \
-    MainWindow.h
+    MainWindow.h \
+    ParametersLoad.h \
+    ParametersSave.h
 
 
 FORMS += \

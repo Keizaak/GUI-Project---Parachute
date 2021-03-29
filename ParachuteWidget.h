@@ -14,9 +14,13 @@ public:
     explicit ParachuteWidget(QWidget * parent = nullptr, MessageModel * _model = nullptr);
 
     void setModel(MessageModel * model);
+    void setNbSectors(int value);
+    void setNbTracks(int value);
 
 private:
     MessageModel * _model;
+    int _nbSectors = 21; // rows
+    int _nbTracks = 5; // columns
 
     void paintEvent(QPaintEvent * event) override;
     void drawParachute(QPainter * painter);

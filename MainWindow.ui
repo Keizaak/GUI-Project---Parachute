@@ -10,6 +10,12 @@
     <height>600</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -56,7 +62,14 @@
           </widget>
          </item>
          <item>
-          <widget class="ParachuteWidget" name="widgetParachute" native="true"/>
+          <widget class="ParachuteWidget" name="widgetParachute" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -78,7 +91,14 @@
           </widget>
          </item>
          <item>
-          <widget class="BinaryArrayWidget" name="widgetBinaryArray" native="true"/>
+          <widget class="BinaryArrayWidget" name="widgetBinaryArray" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -132,8 +152,17 @@
        </item>
        <item>
         <widget class="QSlider" name="sliderSectors">
+         <property name="minimum">
+          <number>7</number>
+         </property>
          <property name="maximum">
-          <number>30</number>
+          <number>35</number>
+         </property>
+         <property name="singleStep">
+          <number>7</number>
+         </property>
+         <property name="pageStep">
+          <number>7</number>
          </property>
          <property name="value">
           <number>21</number>
@@ -151,6 +180,21 @@
        </item>
        <item>
         <widget class="QSpinBox" name="spinBoxSectors">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimum">
+          <number>7</number>
+         </property>
+         <property name="maximum">
+          <number>35</number>
+         </property>
+         <property name="singleStep">
+          <number>7</number>
+         </property>
          <property name="value">
           <number>21</number>
          </property>
@@ -183,8 +227,11 @@
        </item>
        <item>
         <widget class="QSlider" name="sliderTracks">
+         <property name="minimum">
+          <number>1</number>
+         </property>
          <property name="maximum">
-          <number>10</number>
+          <number>20</number>
          </property>
          <property name="value">
           <number>5</number>
@@ -202,6 +249,18 @@
        </item>
        <item>
         <widget class="QSpinBox" name="spinBoxTracks">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>20</number>
+         </property>
          <property name="value">
           <number>5</number>
          </property>

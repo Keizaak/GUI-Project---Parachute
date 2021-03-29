@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "MessageModel.h"
+#include "ParametersSave.h"
+#include "ParametersLoad.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,9 +21,13 @@ public:
 private:
     Ui::MainWindow * ui;
     MessageModel * _model;
+    ParametersSave * _saveManager;
+    ParametersLoad * _loadManager;
 
     void connectMenu();
     void connectEdit();
+    void setMessageValidator();
+    void updateParachuteWidget();
 
 private slots:
     void onSliderSectorsChanged(int value);

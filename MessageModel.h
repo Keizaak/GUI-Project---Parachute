@@ -9,8 +9,6 @@ class MessageModel : public QObject {
 public:
     explicit MessageModel(QObject * parent = nullptr);
 
-    int getNbTracks() const;
-    int getNbSectors() const;
     const QString & getMessage() const;
     int getBinaryElement(int index);
     int getBinaryElement(int row, int col);
@@ -20,8 +18,6 @@ public:
     bool load();
 
 public slots:
-    void setNbTracks(const int nbTracks);
-    void setNbSectors(const int nbSectors);
     void setMessage(const QString & message);
 
 signals:

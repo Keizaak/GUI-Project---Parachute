@@ -3,11 +3,19 @@
 
 ParachuteWidget::ParachuteWidget(QWidget * parent, MessageModel * model) : QWidget(parent), _model(model)
 {
-setFixedSize(300, 300);
+    setFixedSize(200, 200);
 }
 
 void ParachuteWidget::setModel(MessageModel * model) {
     _model = model;
+}
+
+void ParachuteWidget::setNbSectors(int value) {
+    _nbSectors = value;
+}
+
+void ParachuteWidget::setNbTracks(int value) {
+    _nbTracks = value;
 }
 
 void ParachuteWidget::paintEvent(QPaintEvent * event) {
@@ -24,28 +32,29 @@ float ParachuteWidget::createCoordinatesY(float radius, float angle,float cy){
     return -radius*sin(angle) + cy;
 }
 
+
 void ParachuteWidget::drawParachute(QPainter * painter) {
-    QPoint points[_model->getNbTracks()][_model->getNbSectors()][4];
+    QPoint points[_nbTracks][_nbSectors][4];
 
     float widget_width = width();
     float widget_heigth = height();
-    std::cout << widget_width << widget_heigth << std::endl;
+
     float cx = widget_width / 2;
     float cy = widget_heigth / 2;
 
     float radius_max = cy - 20;
 
-    float angle_step = static_cast<float>(2 * M_PI) / _model->getNbSectors();
-    float radius_step = radius_max / _model->getNbTracks();
+    float angle_step = static_cast<float>(2 * M_PI) / _nbSectors;
+    float radius_step = radius_max / _nbTracks;
 
     float angle1 = 0;
     float radius1 = 0;
     float angle2 = angle_step;
     float radius2 = radius_step;
 
-    for (int i = 0; i < _model->getNbTracks(); i++) {
-        for (int j = 0; j < _model->getNbSectors(); j++) {
-            QPoint * figure = points[i][j];
+    for (int i = 0; i < _nbTracks; i++) {
+        for (int j = 0; j < _nbSectors; j++) {
+            QPoint * figure = points[i][_nbSectors - j - 1];
             figure[0].setX(static_cast<int>(createCoordinatesX(radius1,angle1,cx)));
             figure[0].setY(static_cast<int>(createCoordinatesY(radius1,angle1,cy)));
 
@@ -58,23 +67,26 @@ void ParachuteWidget::drawParachute(QPainter * painter) {
             figure[3].setX(static_cast<int>(createCoordinatesX(radius1,angle2,cx)));
             figure[3].setY(static_cast<int>(createCoordinatesY(radius1,angle2,cy)));
 
-            if (i < _model->getRows() && j < _model->getColumns()){
-                if(_model->getBinaryElement(i,j) == 1){
 
-                    painter->setBrush(Qt::red);
-                }else {
-
-                    painter->setBrush(Qt::white);
-                }
-            }
-            else {
-                painter->setBrush(Qt::white);
-            }
+            painter->setBrush(Qt::white);
             painter->drawPolygon(figure, 4);
             angle1 += angle_step;
             angle2 += angle_step;
         }
         radius1 += radius_step;
         radius2 += radius_step;
+    }
+
+    int i = 0;
+    int j = 0;
+    for (int ind = 0; ind < _model->getRows()*_model->getColumns(); ind++){
+        j = ind % _nbSectors;
+        i = ind / _nbSectors;
+        if (_model->getBinaryElement(ind) == 1){
+            if (i < _nbTracks && j < _nbSectors){
+                painter->setBrush(Qt::red);
+                painter->drawPolygon(points[i][j], 4);
+            }
+        }
     }
 }

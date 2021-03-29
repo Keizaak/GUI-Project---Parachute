@@ -1,5 +1,6 @@
+#include <QTranslator>
 #include <QMessageBox>
-#include <iostream>
+#include <QFileDialog>
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
@@ -8,11 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowTitle("Crypted parachute");
-
-    QRegExp regExp("^[a-zA-Z@_]*$");
-    QRegExpValidator * validator = new QRegExpValidator(regExp, this);
-    ui->lineEditMessage->setValidator(validator);
+    setWindowTitle(tr("Crypted parachute"));
 
     _model = new MessageModel(this);
     ui->widgetBinaryArray->setModel(_model);
@@ -20,11 +17,26 @@ MainWindow::MainWindow(QWidget *parent)
 
     connectEdit();
     connectMenu();
+
+    setMessageValidator();
+
+    _saveManager = new ParametersSave();
+    _loadManager = new ParametersLoad();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::updateParachuteWidget() {
+    ui->widgetParachute->update();
+}
+
+void MainWindow::setMessageValidator() {
+    QRegExp regExp("^[a-zA-Z@_]*$");
+    QRegExpValidator * validator = new QRegExpValidator(regExp, this);
+    ui->lineEditMessage->setValidator(validator);
 }
 
 void MainWindow::connectEdit() {
@@ -38,25 +50,28 @@ void MainWindow::connectEdit() {
     connect(_model, SIGNAL(notify()), ui->widgetParachute, SLOT(update()));
 }
 
-
 void MainWindow::onSliderSectorsChanged(int value) {
     ui->spinBoxSectors->setValue(value);
-    _model->setNbSectors(value);
+    ui->widgetParachute->setNbSectors(value);
+    updateParachuteWidget();
 }
 
 void MainWindow::onSpinBoxSectorsChanged(int value) {
     ui->sliderSectors->setValue(value);
-    _model->setNbSectors(value);
+    ui->widgetParachute->setNbSectors(value);
+    updateParachuteWidget();
 }
 
 void MainWindow::onSliderTracksChanged(int value) {
     ui->spinBoxTracks->setValue(value);
-    _model->setNbTracks(value);
+    ui->widgetParachute->setNbTracks(value);
+    updateParachuteWidget();
 }
 
 void MainWindow::onSpinBoxTracksChanged(int value) {
     ui->sliderTracks->setValue(value);
-    _model->setNbTracks(value);
+    ui->widgetParachute->setNbTracks(value);
+    updateParachuteWidget();
 }
 
 void MainWindow::connectMenu() {
@@ -72,34 +87,62 @@ void MainWindow::onQuit() {
 
 void MainWindow::onAbout() {
     QMessageBox::about(this,
-                           "About",
-                           "Crypted parachute - GUI Project\n(c) Raphaël ANCETTE & Camille GUIGNOL");
+                           tr("About"),
+                           tr("Crypted parachute - GUI Project\n(c) Raphaël ANCETTE & Camille GUIGNOL"));
 }
 
 void MainWindow::onSave() {
-    bool success = _model->save();
+
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Save parachute settings"),
+                                                    "",
+                                                    tr("Parachute settings (*.pst);;All Files (*)"));
+
+    bool success = _saveManager->save(fileName,
+                                      ui->spinBoxSectors->value(),
+                                      ui->spinBoxTracks->value(),
+                                      ui->lineEditMessage->text());
 
     if (success) {
         QMessageBox::information(this,
-                                 "Save",
-                                 "Parachute settings have been saved successfully");
+                                 tr("Save"),
+                                 tr("Parachute settings have been saved successfully"));
     } else {
         QMessageBox::critical(this,
-                              "Save",
-                              "Parachute settings could not be saved, please try again");
+                              tr("Save"),
+                              tr("Parachute settings could not be saved, please try again"));
     }
 }
 
 void MainWindow::onLoad() {
-    bool success = _model->load();
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Open parachute settings"),
+                                                    "",
+                                                    tr("Parachute settings (*.pst);;All Files (*)"));
+
+    qint32 nbSectors = ui->spinBoxSectors->value();
+    qint32 nbTracks = ui->spinBoxTracks->value();
+    QString message = ui->lineEditMessage->text();
+
+    bool success = _loadManager->load(fileName,
+                                      &nbSectors,
+                                      &nbTracks,
+                                      &message);
 
     if (success) {
+        ui->spinBoxSectors->setValue(nbSectors);
+        ui->widgetParachute->setNbSectors(nbSectors);
+        ui->spinBoxTracks->setValue(nbTracks);
+        ui->widgetParachute->setNbTracks(nbTracks);
+        ui->lineEditMessage->setText(message);
+        updateParachuteWidget();
+
         QMessageBox::information(this,
-                                 "Load",
-                                 "Parachute settings have been loaded successfully");
+                                 tr("Load"),
+                                 tr("Parachute settings have been loaded successfully"));
     } else {
         QMessageBox::critical(this,
-                              "Load",
-                              "Parachute settings could not be loaded, please ensure that the save file parameters.txt exists or that you have already saved");
+                              tr("Load"),
+                              tr("Parachute settings could not be loaded, your file is invalid"));
     }
 }
