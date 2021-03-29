@@ -1,3 +1,4 @@
+#include <QMessageBox>
 #include <iostream>
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
@@ -6,8 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    setWindowTitle("Crypted parachute");
     ui->setupUi(this);
+    setWindowTitle("Crypted parachute");
 
     QRegExp regExp("^[a-zA-Z@_]*$");
     QRegExpValidator * validator = new QRegExpValidator(regExp, this);
@@ -18,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->widgetParachute->setModel(_model);
 
     connectEdit();
+    connectMenu();
 }
 
 MainWindow::~MainWindow()
@@ -55,4 +57,39 @@ void MainWindow::onSliderTracksChanged(int value) {
 void MainWindow::onSpinBoxTracksChanged(int value) {
     ui->sliderTracks->setValue(value);
     _model->setNbTracks(value);
+}
+
+void MainWindow::connectMenu() {
+    connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(onQuit()));
+    connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(onAbout()));
+    connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(onSave()));
+    connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(onLoad()));
+}
+
+void MainWindow::onQuit() {
+    close();
+}
+
+void MainWindow::onAbout() {
+    QMessageBox::about(this,
+                           "About",
+                           "Crypted parachute - GUI Project\n(c) Raphaël ANCETTE & Camille GUIGNOL");
+}
+
+void MainWindow::onSave() {
+    bool success = _model->save();
+
+    if (success) {
+        QMessageBox::information(this,
+                                 "Save",
+                                 "Parachute settings have been saved successfully");
+    } else {
+        QMessageBox::critical(this,
+                              "Save",
+                              "Parachute settings could not be saved, please try again");
+    }
+}
+
+void MainWindow::onLoad() {
+
 }

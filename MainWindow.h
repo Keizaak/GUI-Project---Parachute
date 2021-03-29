@@ -28,5 +28,9 @@ private slots:
     void onSpinBoxSectorsChanged(int value);
     void onSliderTracksChanged(int value);
     void onSpinBoxTracksChanged(int value);
+    void onQuit();
+    void onAbout();
+    void onSave();
+    void onLoad();
 };
 #endif // MAINWINDOW_H

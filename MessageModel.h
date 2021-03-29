@@ -12,9 +12,12 @@ public:
     int getNbTracks() const;
     int getNbSectors() const;
     const QString & getMessage() const;
+    int getBinaryElement(int index);
     int getBinaryElement(int row, int col);
     int getRows();
     int getColumns();
+    bool save();
+    bool load();
 
 public slots:
     void setNbTracks(const int nbTracks);
@@ -28,7 +31,7 @@ private:
     int _nbTracks = 5; // rows
     int _nbSectors = 21; // columns
     QString _message;
-    std::vector<std::vector<int>> _binaryArray;
+    std::vector<int> _binaryArray;
 
     void sendNotification();
     void resize();

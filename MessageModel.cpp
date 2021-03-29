@@ -1,5 +1,5 @@
 #include "MessageModel.h"
-#include <iostream>
+#include <fstream>
 
 MessageModel::MessageModel(QObject * parent) : QObject(parent)
 {
@@ -19,16 +19,20 @@ const QString & MessageModel::getMessage() const {
   return _message;
 }
 
+int MessageModel::getBinaryElement(int index) {
+    return _binaryArray[index];
+}
+
 int MessageModel::getBinaryElement(int row, int col) {
-    return _binaryArray[row][col];
+    return _binaryArray[row * _message.length() + col];
 }
 
 int MessageModel::getRows() {
-    return _binaryArray.size();
+    return 7;
 }
 
 int MessageModel::getColumns() {
-    return _binaryArray[0].size();
+    return _message.length();
 }
 
 void MessageModel::setNbTracks(const int nbTracks) {
@@ -53,7 +57,7 @@ void MessageModel::sendNotification() {
 
 void MessageModel::resize() {
     _binaryArray.clear();
-    _binaryArray.resize(7, std::vector<int>(_message.length()));
+    _binaryArray.resize(7 *_message.length());
 }
 
 int MessageModel::asciiWithOffset(int ascii, int offset) {
@@ -74,7 +78,30 @@ void MessageModel::messageToBinary() {
         int number = asciiWithOffset(_message[i].toLatin1());
         int * binary = decimalToBinary(number);
         for (int j = 0; j < 7; j++) {
-            _binaryArray[j][i] = binary[j];
+            _binaryArray[j * _message.length() + i] = binary[j];
         }
     }
+}
+
+bool MessageModel::save() {
+    std::ofstream fileHandler;
+
+    fileHandler.open("parameters.txt");
+    if (!fileHandler) {
+        return false;
+    }
+
+    fileHandler << "#Number of sectors" << std::endl;
+    fileHandler << _nbSectors << std::endl;
+    fileHandler << "#Number of tracks" << std::endl;
+    fileHandler << _nbTracks << std::endl;
+    fileHandler << "#Message" << std::endl;
+    fileHandler << _message.toStdString() << std::endl;
+    fileHandler.close();
+
+    return true;
+}
+
+bool MessageModel::load() {
+    return false;
 }
