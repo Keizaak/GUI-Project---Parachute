@@ -53,6 +53,9 @@
              <pointsize>14</pointsize>
             </font>
            </property>
+           <property name="locale">
+            <locale language="English" country="UnitedStates"/>
+           </property>
            <property name="text">
             <string>Parachute</string>
            </property>
@@ -81,6 +84,9 @@
             <font>
              <pointsize>14</pointsize>
             </font>
+           </property>
+           <property name="locale">
+            <locale language="English" country="UnitedStates"/>
            </property>
            <property name="text">
             <string>Binary array</string>
@@ -117,6 +123,9 @@
        </property>
        <item>
         <widget class="QLabel" name="labelMessage">
+         <property name="locale">
+          <locale language="English" country="UnitedStates"/>
+         </property>
          <property name="text">
           <string>Message:</string>
          </property>
@@ -141,6 +150,9 @@
           <font>
            <pointsize>12</pointsize>
           </font>
+         </property>
+         <property name="locale">
+          <locale language="English" country="UnitedStates"/>
          </property>
          <property name="text">
           <string>Number of sectors</string>
@@ -217,6 +229,9 @@
            <pointsize>12</pointsize>
           </font>
          </property>
+         <property name="locale">
+          <locale language="English" country="UnitedStates"/>
+         </property>
          <property name="text">
           <string>Number of tracks</string>
          </property>
@@ -281,6 +296,9 @@
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
+    <property name="locale">
+     <locale language="English" country="UnitedStates"/>
+    </property>
     <property name="title">
      <string>&amp;File</string>
     </property>
@@ -290,6 +308,9 @@
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
+    <property name="locale">
+     <locale language="English" country="UnitedStates"/>
+    </property>
     <property name="title">
      <string>&amp;Help</string>
     </property>
