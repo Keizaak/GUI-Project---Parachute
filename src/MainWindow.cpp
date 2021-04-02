@@ -4,6 +4,10 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+// TODO: changer la trad à cause de l'ouverture de fichier
+// TODO: minimum FACULTATIF
+// TODO: barre icône OBLIGATOIRE
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -11,26 +15,25 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setWindowTitle(tr("Crypted parachute"));
 
-    _model = new MessageModel(this);
-    ui->widgetBinaryArray->setModel(_model);
-    ui->widgetParachute->setModel(_model);
+    setMessageValidator();
+
+    _messageModel = new MessageModel(this);
+    _parachuteModel = new ParachuteModel(this);
+
+    ui->widgetBinaryArray->setModel(_messageModel);
+    ui->widgetParachute->setMessageModel(_messageModel);
+    ui->widgetParachute->setParachuteModel(_parachuteModel);
 
     connectEdit();
     connectMenu();
 
-    setMessageValidator();
-
-    _saveManager = new ParametersSave();
-    _loadManager = new ParametersLoad();
+    _saveManager = new SaveManager();
+    _loadManager = new LoadManager();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::updateParachuteWidget() {
-    ui->widgetParachute->update();
 }
 
 void MainWindow::setMessageValidator() {
@@ -40,38 +43,53 @@ void MainWindow::setMessageValidator() {
 }
 
 void MainWindow::connectEdit() {
-    connect(ui->lineEditMessage, SIGNAL(textChanged(const QString &)), _model, SLOT(setMessage(const QString &)));
+    connect(ui->lineEditMessage, SIGNAL(textChanged(const QString &)), this, SLOT(onMessageChanged(const QString &)));
     connect(ui->sliderSectors, SIGNAL(valueChanged(int)), this, SLOT(onSliderSectorsChanged(int)));
     connect(ui->spinBoxSectors, SIGNAL(valueChanged(int)), this, SLOT(onSpinBoxSectorsChanged(int)));
     connect(ui->sliderTracks, SIGNAL(valueChanged(int)), this, SLOT(onSliderTracksChanged(int)));
     connect(ui->spinBoxTracks, SIGNAL(valueChanged(int)), this, SLOT(onSpinBoxTracksChanged(int)));
 
-    connect(_model, SIGNAL(notify()), ui->widgetBinaryArray, SLOT(update()));
-    connect(_model, SIGNAL(notify()), ui->widgetParachute, SLOT(update()));
+    connect(_messageModel, SIGNAL(notify()), ui->widgetBinaryArray, SLOT(update()));
+    connect(_messageModel, SIGNAL(notify()), ui->widgetParachute, SLOT(update()));
+    connect(_parachuteModel, SIGNAL(notify()), ui->widgetParachute, SLOT(update()));
+}
+
+void MainWindow::changeMinimumValueSectorsTracks(int minSectors, int minTracks) {
+    if (_parachuteModel->getNbTracks() * _parachuteModel->getNbSectors() < 7 * _messageModel->getMessage().length()) {
+        ui->spinBoxSectors->setMinimum(minSectors);
+        ui->sliderSectors->setMinimum(minSectors);
+        ui->spinBoxTracks->setMinimum(minTracks);
+        ui->sliderTracks->setMinimum(minTracks);
+    }
+}
+
+void MainWindow::onMessageChanged(const QString & message) {
+    _messageModel->setMessage(message);
+    //changeMinimumValueSectorsTracks(7, 1);
 }
 
 void MainWindow::onSliderSectorsChanged(int value) {
     ui->spinBoxSectors->setValue(value);
-    ui->widgetParachute->setNbSectors(value);
-    updateParachuteWidget();
+    _parachuteModel->setNbSectors(value);
+    //changeMinimumValueSectorsTracks(_parachuteModel->getNbSectors(), _parachuteModel->getNbTracks());
 }
 
 void MainWindow::onSpinBoxSectorsChanged(int value) {
     ui->sliderSectors->setValue(value);
-    ui->widgetParachute->setNbSectors(value);
-    updateParachuteWidget();
+    _parachuteModel->setNbSectors(value);
+    //changeMinimumValueSectorsTracks(_parachuteModel->getNbSectors(), _parachuteModel->getNbTracks());
 }
 
 void MainWindow::onSliderTracksChanged(int value) {
     ui->spinBoxTracks->setValue(value);
-    ui->widgetParachute->setNbTracks(value);
-    updateParachuteWidget();
+    _parachuteModel->setNbTracks(value);
+    //changeMinimumValueSectorsTracks(_parachuteModel->getNbSectors(), _parachuteModel->getNbTracks());
 }
 
 void MainWindow::onSpinBoxTracksChanged(int value) {
     ui->sliderTracks->setValue(value);
-    ui->widgetParachute->setNbTracks(value);
-    updateParachuteWidget();
+    _parachuteModel->setNbTracks(value);
+    //changeMinimumValueSectorsTracks(_parachuteModel->getNbSectors(), _parachuteModel->getNbTracks());
 }
 
 void MainWindow::connectMenu() {
@@ -131,11 +149,10 @@ void MainWindow::onLoad() {
 
     if (success) {
         ui->spinBoxSectors->setValue(nbSectors);
-        ui->widgetParachute->setNbSectors(nbSectors);
+        _parachuteModel->setNbSectors(nbSectors);
         ui->spinBoxTracks->setValue(nbTracks);
-        ui->widgetParachute->setNbTracks(nbTracks);
+        _parachuteModel->setNbTracks(nbTracks);
         ui->lineEditMessage->setText(message);
-        updateParachuteWidget();
 
         QMessageBox::information(this,
                                  tr("Load"),

@@ -3,8 +3,9 @@
 
 #include <QMainWindow>
 #include "MessageModel.h"
-#include "ParametersSave.h"
-#include "ParametersLoad.h"
+#include "ParachuteModel.h"
+#include "SaveManager.h"
+#include "LoadManager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,20 +21,23 @@ public:
 
 private:
     Ui::MainWindow * ui;
-    MessageModel * _model;
-    ParametersSave * _saveManager;
-    ParametersLoad * _loadManager;
+    MessageModel * _messageModel;
+    ParachuteModel * _parachuteModel;
+    SaveManager * _saveManager;
+    LoadManager * _loadManager;
 
     void connectMenu();
     void connectEdit();
     void setMessageValidator();
-    void updateParachuteWidget();
+    void changeMinimumValueSectorsTracks(int minSectors, int minTracks);
 
 private slots:
+    void onMessageChanged(const QString & message);
     void onSliderSectorsChanged(int value);
     void onSpinBoxSectorsChanged(int value);
     void onSliderTracksChanged(int value);
     void onSpinBoxTracksChanged(int value);
+
     void onQuit();
     void onAbout();
     void onSave();

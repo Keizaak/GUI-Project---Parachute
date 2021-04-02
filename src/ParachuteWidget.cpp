@@ -1,21 +1,16 @@
 #include <QPoint>
 #include "ParachuteWidget.h"
 
-ParachuteWidget::ParachuteWidget(QWidget * parent, MessageModel * model) : QWidget(parent), _model(model)
+ParachuteWidget::ParachuteWidget(QWidget * parent) : QWidget(parent)
 {
-    setFixedSize(200, 200);
 }
 
-void ParachuteWidget::setModel(MessageModel * model) {
-    _model = model;
+void ParachuteWidget::setMessageModel(MessageModel * model) {
+    _messageModel = model;
 }
 
-void ParachuteWidget::setNbSectors(int value) {
-    _nbSectors = value;
-}
-
-void ParachuteWidget::setNbTracks(int value) {
-    _nbTracks = value;
+void ParachuteWidget::setParachuteModel(ParachuteModel * model) {
+    _parachuteModel = model;
 }
 
 void ParachuteWidget::paintEvent(QPaintEvent * event) {
@@ -34,7 +29,7 @@ float ParachuteWidget::createCoordinatesY(float radius, float angle,float cy){
 
 
 void ParachuteWidget::drawParachute(QPainter * painter) {
-    QPoint points[_nbTracks][_nbSectors][4];
+    QPoint points[_parachuteModel->getNbTracks()][_parachuteModel->getNbSectors()][4];
 
     float widget_width = width();
     float widget_heigth = height();
@@ -44,17 +39,17 @@ void ParachuteWidget::drawParachute(QPainter * painter) {
 
     float radius_max = cy - 20;
 
-    float angle_step = static_cast<float>(2 * M_PI) / _nbSectors;
-    float radius_step = radius_max / _nbTracks;
+    float angle_step = static_cast<float>(2 * M_PI) / _parachuteModel->getNbSectors();
+    float radius_step = radius_max / _parachuteModel->getNbTracks();
 
     float angle1 = 0;
     float radius1 = 0;
     float angle2 = angle_step;
     float radius2 = radius_step;
 
-    for (int i = 0; i < _nbTracks; i++) {
-        for (int j = 0; j < _nbSectors; j++) {
-            QPoint * figure = points[i][_nbSectors - j - 1];
+    for (int i = 0; i < _parachuteModel->getNbTracks(); i++) {
+        for (int j = 0; j < _parachuteModel->getNbSectors(); j++) {
+            QPoint * figure = points[i][_parachuteModel->getNbSectors() - j - 1];
             figure[0].setX(static_cast<int>(createCoordinatesX(radius1,angle1,cx)));
             figure[0].setY(static_cast<int>(createCoordinatesY(radius1,angle1,cy)));
 
@@ -79,11 +74,11 @@ void ParachuteWidget::drawParachute(QPainter * painter) {
 
     int i = 0;
     int j = 0;
-    for (int ind = 0; ind < _model->getRows()*_model->getColumns(); ind++){
-        j = ind % _nbSectors;
-        i = ind / _nbSectors;
-        if (_model->getBinaryElement(ind) == 1){
-            if (i < _nbTracks && j < _nbSectors){
+    for (int ind = 0; ind < _messageModel->getRows()*_messageModel->getColumns(); ind++){
+        j = ind % _parachuteModel->getNbSectors();
+        i = ind / _parachuteModel->getNbSectors();
+        if (_messageModel->getBinaryElement(ind) == 1){
+            if (i < _parachuteModel->getNbTracks() && j < _parachuteModel->getNbSectors()){
                 painter->setBrush(Qt::red);
                 painter->drawPolygon(points[i][j], 4);
             }

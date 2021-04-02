@@ -1,13 +1,13 @@
 #include <QDataStream>
 #include <QFile>
-#include "ParametersLoad.h"
+#include "LoadManager.h"
 
-ParametersLoad::ParametersLoad()
+LoadManager::LoadManager()
 {
 
 }
 
-bool ParametersLoad::load(QString fileName, qint32 * nbSectors, qint32 * nbTracks, QString * message) {
+bool LoadManager::load(QString fileName, qint32 * nbSectors, qint32 * nbTracks, QString * message) {
 
     if (fileName.isEmpty()) {
         return false;

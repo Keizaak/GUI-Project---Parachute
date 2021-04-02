@@ -3,7 +3,6 @@
 
 BinaryArrayWidget::BinaryArrayWidget(QWidget * parent, MessageModel * model) : QWidget(parent), _model(model)
 {
-    setFixedSize(300, 300);
 }
 
 void BinaryArrayWidget::setModel(MessageModel * model) {
@@ -17,7 +16,11 @@ void BinaryArrayWidget::paintEvent(QPaintEvent * event) {
 }
 
 void BinaryArrayWidget::drawBinaryArray(QPainter * painter) {
-    int radius = 15;
+    int radius = height() / 7;
+
+    if (_model->getColumns() > 8) {
+        radius = width() / _model->getColumns();
+    }
 
     for (int i = 0; i < _model->getRows(); i++) {
         for (int j = 0; j < _model->getColumns(); j++) {

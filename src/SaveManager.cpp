@@ -2,14 +2,14 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QTranslator>
-#include "ParametersSave.h"
+#include "SaveManager.h"
 
-ParametersSave::ParametersSave()
+SaveManager::SaveManager()
 {
 
 }
 
-bool ParametersSave::save(QString fileName, qint32 nbSectors, qint32 nbTracks, QString message) {
+bool SaveManager::save(QString fileName, qint32 nbSectors, qint32 nbTracks, QString message) {
 
     if (fileName.isEmpty()) {
         return false;

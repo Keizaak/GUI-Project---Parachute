@@ -1,14 +1,14 @@
-#ifndef PARAMETERSSAVE_H
-#define PARAMETERSSAVE_H
+#ifndef SAVEMANAGER_H
+#define SAVEMANAGER_H
 
 #include <QString>
 
-class ParametersSave
+class SaveManager
 {
 public:
-    ParametersSave();
+    SaveManager();
 
     bool save(QString fileName, qint32 nbSectors, qint32 nbTracks, QString message);
 };
 
-#endif // PARAMETERSSAVE_H
+#endif // SAVEMANAGER_H

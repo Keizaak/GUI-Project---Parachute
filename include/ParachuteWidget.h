@@ -6,21 +6,20 @@
 #include <math.h>
 #include <iostream>
 #include "MessageModel.h"
+#include "ParachuteModel.h"
 
 class ParachuteWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ParachuteWidget(QWidget * parent = nullptr, MessageModel * _model = nullptr);
+    explicit ParachuteWidget(QWidget * parent = nullptr);
 
-    void setModel(MessageModel * model);
-    void setNbSectors(int value);
-    void setNbTracks(int value);
+    void setMessageModel(MessageModel * model);
+    void setParachuteModel(ParachuteModel * model);
 
 private:
-    MessageModel * _model;
-    int _nbSectors = 21; // rows
-    int _nbTracks = 5; // columns
+    MessageModel * _messageModel;
+    ParachuteModel * _parachuteModel;
 
     void paintEvent(QPaintEvent * event) override;
     void drawParachute(QPainter * painter);

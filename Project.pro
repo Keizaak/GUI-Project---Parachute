@@ -9,30 +9,39 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    MessageModel.cpp \
-    BinaryArrayWidget.cpp \
-    ParachuteWidget.cpp \
-    ParametersLoad.cpp \
-    ParametersSave.cpp \
-    main.cpp \
-    MainWindow.cpp
+    src/BinaryArrayWidget.cpp \
+    src/LoadManager.cpp \
+    src/MainWindow.cpp \
+    src/MessageModel.cpp \
+    src/ParachuteModel.cpp \
+    src/ParachuteWidget.cpp \
+    src/SaveManager.cpp \
+    src/main.cpp
 
 HEADERS += \
-    MessageModel.h \
-    BinaryArrayWidget.h \
-    ParachuteWidget.h \
-    MainWindow.h \
-    ParametersLoad.h \
-    ParametersSave.h
+    include/BinaryArrayWidget.h \
+    include/LoadManager.h \
+    include/MainWindow.h \
+    include/MessageModel.h \
+    include/ParachuteModel.h \
+    include/ParachuteWidget.h \
+    include/SaveManager.h
 
 
 FORMS += \
-    MainWindow.ui
+    ressources/MainWindow.ui
 
 TRANSLATIONS += \
-    Project_fr_FR.ts
+    resources/Project_fr_FR.ts
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    OQilkK.json \
+    README.md \
+    etc/gui.jpg \
+    ressources/Project_fr_FR.ts \
+    xHpbFR.json

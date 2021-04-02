@@ -14,8 +14,6 @@ public:
     int getBinaryElement(int row, int col);
     int getRows();
     int getColumns();
-    bool save();
-    bool load();
 
 public slots:
     void setMessage(const QString & message);
@@ -24,8 +22,6 @@ signals:
     void notify();
 
 private:
-    int _nbTracks = 5; // rows
-    int _nbSectors = 21; // columns
     QString _message;
     std::vector<int> _binaryArray;
 

@@ -1,14 +1,14 @@
-#ifndef PARAMETERSLOAD_H
-#define PARAMETERSLOAD_H
+#ifndef LOADMANAGER_H
+#define LOADMANAGER_H
 
 #include <QString>
 
-class ParametersLoad
+class LoadManager
 {
 public:
-    ParametersLoad();
+    LoadManager();
 
     bool load(QString fileName, qint32 * nbSectors, qint32 * nbTracks, QString * message);
 };
 
-#endif // PARAMETERSLOAD_H
+#endif // LOADMANAGER_H
