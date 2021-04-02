@@ -1,4 +1,3 @@
-
 Projet IG - Parachute crypté
 ============================
 # Équipe
@@ -12,7 +11,8 @@ Le but de ce projet était d'afficher un message choisi par l'utilisateur tradui
 
 # Fonctionnalités implémentées
 ## Interface
-![Capture d'écran de l'interface]("/etc/gui.jpg")
+![Capture d'écran de l'interface]("etc/gui.jpg")
+
 L'interface s'adapte à la taille de la fenêtre.
 
 ## Conversion en binaire
