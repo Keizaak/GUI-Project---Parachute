@@ -67,7 +67,7 @@
     </message>
     <message>
         <source>Parachute settings (*.pst);;All Files (*)</source>
-        <translation>Paramètres du parachute</translation>
+        <translation>Paramètres du parachute (*.pst);;Tous les fichiers (*)</translation>
     </message>
     <message>
         <source>Save</source>

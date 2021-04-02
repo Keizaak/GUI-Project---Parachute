@@ -32,7 +32,7 @@ FORMS += \
     ressources/MainWindow.ui
 
 TRANSLATIONS += \
-    resources/Project_fr_FR.ts
+    ressources/Project_fr_FR.ts
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
