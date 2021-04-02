@@ -11,7 +11,7 @@ Le but de ce projet était d'afficher un message choisi par l'utilisateur tradui
 
 # Fonctionnalités implémentées
 ## Interface
-![Interface]("etc/gui.png" "Capture d'écran de l'application")
+![Interface](etc/gui.png "Capture d'écran de l'application")
 
 L'interface s'adapte à la taille de la fenêtre.
 
